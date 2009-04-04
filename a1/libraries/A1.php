@@ -125,14 +125,14 @@ class A1 {
 			cookie::set("a1_{$this->config_name}_autologin", $token . '.' . $this->primary_key_value, $this->config['lifetime']);
 		}
 
-		if(isset($this->config['last_login']))
+		if(isset($this->columns['last_login']))
 		{
-			$user->{$this->config['last_login']} = time();
+			$user->{$this->columns['last_login']} = time();
 		}
 		
-		if(isset($this->config['logins']))
+		if(isset($this->columns['logins']))
 		{
-			$user->{$this->config['logins']}++;
+			$user->{$this->columns['logins']}++;
 		}
 
 		$user->save();
