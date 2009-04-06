@@ -157,7 +157,7 @@ class Acl {
 			{
 				if($role instanceof Acl_Role_Interface)
 				{
-					$role = $role->get_resource_id();
+					$role = $role->get_role_id();
 				}
 				else
 				{
