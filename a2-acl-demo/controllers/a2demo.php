@@ -8,7 +8,7 @@ class A2Demo_Controller extends Controller {
 		new Profiler;
 		$this->a2 = A2::instance();
 		$this->a1 = $this->a2->a1();
-		echo '<div style="position:absolute;top:0px;right:0px;background-color:#f0f0f0;font-weight:bold;padding:5px;">',html::anchor('A2Demo/','index'),'-',html::anchor('A2Demo/db','DB'),'</div>';
+		echo '<div style="position:absolute;top:0px;right:0px;background-color:#f0f0f0;font-weight:bold;padding:5px;">',html::anchor('a2demo/','index'),'-',html::anchor('a2demo/db','DB'),'</div>';
 	}
 	
 	public function index()
@@ -29,21 +29,21 @@ class A2Demo_Controller extends Controller {
 			foreach($blogs as $blog)
 			{
 				echo $blog->text,'<br>';
-				echo html::anchor('A2Demo/edit/'.$blog->id,'Edit'),'-',html::anchor('A2Demo/delete/'.$blog->id,'Delete'),'<hr>';
+				echo html::anchor('a2demo/edit/'.$blog->id,'Edit'),'-',html::anchor('a2demo/delete/'.$blog->id,'Delete'),'<hr>';
 			}
 		}
-		echo html::anchor('A2Demo/add','Add');
+		echo html::anchor('a2demo/add','Add');
 	}
 	
 	private function _user_info()
 	{
 		if( ($user = $this->a2->get_user()))
 		{
-			$s =  '<b>'.$user->username.' <i>('.$user->role . ')</i></b> ' . html::anchor('A2Demo/logout','Logout');
+			$s =  '<b>'.$user->username.' <i>('.$user->role . ')</i></b> ' . html::anchor('a2demo/logout','Logout');
 		}
 		else
 		{
-			$s = '<b>Guest</b> ' . html::anchor('A2Demo/login','Login') . ' - ' . html::anchor('A2Demo/create','Create account');
+			$s = '<b>Guest</b> ' . html::anchor('a2demo/login','Login') . ' - ' . html::anchor('a2demo/create','Create account');
 		}
 		
 		return '<div style="width:100%;padding:5px;background-color:#AFB6FF;">' . $s . '</div>';
@@ -92,7 +92,7 @@ class A2Demo_Controller extends Controller {
 			if($this->a1->login($post['username'],$post['password']))
 			{
 				// login succesful
-				url::redirect( 'A2Demo/index' );
+				url::redirect( 'a2demo/index' );
 			}
 		}
 		
