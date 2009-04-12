@@ -1,6 +1,6 @@
 <?php
 
-class A2Demo_Controller extends Controller {
+class A2demo_Controller extends Controller {
 	
 	public function __construct()
 	{
@@ -57,7 +57,9 @@ class A2Demo_Controller extends Controller {
 		// Create a new user
 		$user = ORM::factory('user');
 
-		if ($user->validate($_POST,TRUE))
+		$post = $_POST;
+
+		if ($user->validate($post,TRUE))
 		{
 			// user  created, show login form
 			$this->login();
@@ -74,14 +76,14 @@ class A2Demo_Controller extends Controller {
 			echo form::close();
 		}
 		
-		echo Kohana::debug($_POST->as_array(),$user->as_array());
+		echo Kohana::debug($post->as_array(),$user->as_array());
 	}
 	
 	public function login()
 	{
 		if($this->a2->logged_in()) //cannot create new accounts when a user is logged in
 			return $this->index();
-			
+		
 		$post = Validation::factory($_POST)
 			->pre_filter('trim')
 			->add_rules('username', 'required', 'length[4,127]')
