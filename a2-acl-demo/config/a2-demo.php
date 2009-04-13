@@ -17,8 +17,8 @@ $config['a1'] = array('A1'); // For Kohana's AUTH, simply use array('AUTH');
  */
 $config['roles'] = array
 (
-	// ADD YOUR OWN ROLES HERE
-	'user'	=>	'guest'
+	'user'			=>	'guest',
+	'admin'			=>	'user'
 );
 
 /*
@@ -33,24 +33,36 @@ $config['guest_role'] = 'guest';
  */
 $config['resources'] = array
 (
-	// ADD YOUR OWN RESOURCES HERE
-	'blog'	=>	NULL
+	'blog'				=>	NULL
 );
 
 /*
  * The ACL Rules (Again, string IDs are fine, use of ACL_Role/Resource_Interface objects also possible)
  * Split in allow rules and deny rules, one sub-array per rule:
      array( ROLES, RESOURCES, PRIVILEGES, ASSERTION)
+ *
+ * Assertions are defined as follows :
+ 		 array(CLASS_NAME,$argument) // (only assertion objects that support (at most) 1 argument are supported
+ 		                             //  if you need to give your assertion object several arguments, use an array)
  */
 $config['rules'] = array
 (
 	'allow' => array
 	(
-		// ADD YOUR OWN ALLOW RULES HERE
-		array('guest','blog','read')
+			// guest can read blog
+		array('guest','blog','read'),
+		
+			// users can add blogs
+		array('user','blog','add'),
+		
+			// users can edit their own blogs (and only their own blogs)
+		array('user','blog','edit',array('Acl_Assert_Argument',array('primary_key_value'=>'user_id'))),
+		
+			// administrators can delete everything 
+		array('admin','blog','delete'),
 	),
 	'deny' => array
 	(
-		// ADD YOUR OWN DENY RULES HERE
+		  // no deny rules in this example
 	)
 );

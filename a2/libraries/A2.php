@@ -69,7 +69,7 @@ class A2 extends Acl {
 		$config          = Kohana::config($config_name);
 		
 		$this->guest_role = $config['guest_role'];
-		$this->a1 				= $config['a1'];
+		$this->a1 				= call_user_func_array(array($config['a1'][0],'instance'),isset($config['a1'][1]) ? $config['a1'][1] : NULL);
 
 		// Add Guest Role as role
 		if(!array_key_exists($this->guest_role,$config['roles']))
@@ -103,6 +103,11 @@ class A2 extends Acl {
 					{
 						$rule += array_fill(count($rule),$num, NULL);
 					}
+					
+					// create assert object
+					if($rule[3] !== NULL)
+						$rule[3] = isset($rule[3][1]) ? new $rule[3][0]($rule[3][1]) : new $rule[3][0];
+					
 					$this->$method($rule[0],$rule[1],$rule[2],$rule[3]);
 				}
 			}
