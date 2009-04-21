@@ -7,7 +7,7 @@ class A2demo_Controller extends Controller {
 		parent::__construct();
 		new Profiler;
 		$this->a2 = A2::instance('a2-demo');
-		$this->a1 = $this->a2->a1();
+		$this->a1 = $this->a2->a1;
 		echo '<div style="position:absolute;top:0px;right:0px;background-color:#f0f0f0;font-weight:bold;padding:5px;">',html::anchor('a2demo/','index'),'-',html::anchor('a2demo/db','DB'),'</div>';
 	}
 	

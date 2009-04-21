@@ -30,7 +30,7 @@
 
 class A2 extends Acl {
 
-	protected $a1; 				 // the Authentication library (used to retrieve user)
+	public $a1; 				 // the Authentication library (used to retrieve user)
 	protected $guest_role; // name of the guest role (used when no user is logged in)
 
 	/**
@@ -133,11 +133,4 @@ class A2 extends Acl {
 	{
 		return $this->a1->get_user();
 	}
-	
-	// Return Authentication object
-	public function a1()
-	{
-		return $this->a1;
-	}
-
 } // End A2 lib
