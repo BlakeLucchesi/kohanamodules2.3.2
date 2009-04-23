@@ -205,13 +205,13 @@ class Acl {
 		// resource unknown
 		if($resource !== NULL AND !$this->has_resource($resource))
 			return FALSE;
+
+		// make role array
+		$role = array($role);
 		
 		do
 		{
 			//echo 'running for resource: ' . $resource .  '<br>';
-			
-			// make role array
-			$role = array($role);
 								
 			// try to find rule
 			if( ($rule = $this->_find_match_role($resource,$role,$privilege) ) )
