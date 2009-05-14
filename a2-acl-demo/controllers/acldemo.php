@@ -3,6 +3,8 @@
 class AclDemo_Controller extends Controller {
 	
 	public function __construct() {
+		parent::__construct();
+
 		$this->acl1 = new Zend_Acl;
 		$this->acl1->addRole(new Zend_Acl_Role('owner'));
 		$this->acl1->addRole(new Zend_Acl_Role('user'));

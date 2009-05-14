@@ -4,18 +4,34 @@
  * Abstract A1 Authentication User Model
  * To be extended and completed to user's needs
  */
+ 
+ // Please note that you can also opt to completely replace this model (instead of extending it)
+ // Just choose whatever suits your needs best :-)
 
 abstract class A1_User_Model extends ORM {
 
 	// Specify config name so password gets hashed correctly (with the right salt pattern) when set in user
 	protected $config_name = 'a1';
-
+	
+	// user_model (as specified in config file)
+	protected $user_model;
+	// user column names (as specified in config file)
+	protected $columns;
+	
 	// Columns to ignore
 	protected $ignored_columns = array('password_confirm');
 
+	public function __construct($id = NULL)
+	{
+		$this->columns          = Kohana::config($this->config_name . '.columns');
+		$this->user_model       = Kohana::config($this->config_name . '.user_model');
+		
+		parent::__construct($id);
+	}
+
 	public function __set($key, $value)
 	{
-		if ($key === 'password')
+		if ($key === $this->columns['password'])
 		{
 			if ($this->loaded AND $value === '')
 			{
@@ -47,7 +63,7 @@ abstract class A1_User_Model extends ORM {
 		if ($status = $array->validate())
 		{
 			// Change the password
-			$this->password = $array['password'];
+			$this->{$this->columns['password']} = $array['password'];
 
 			if ($save !== FALSE AND $status = $this->save())
 			{
@@ -79,7 +95,7 @@ abstract class A1_User_Model extends ORM {
 			return TRUE;
 		}
 
-		return ! ORM::factory('user')->where($key, $id)->count_all();
+		return ! ORM::factory($this->user_model)->where($key, $id)->count_all();
 	}
 
 	/**
@@ -89,7 +105,7 @@ abstract class A1_User_Model extends ORM {
 	{
 		if ( ! empty($id) AND is_string($id) AND ! ctype_digit($id))
 		{
-			return 'username';
+			return $this->columns['username'];
 		}
 
 		return parent::unique_key($id);
