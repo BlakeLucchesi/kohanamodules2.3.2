@@ -80,9 +80,14 @@ class Acl {
 	}
 	
 	// check if role exists in ACL
-	public function has_role($role)
+	public function has_role($roles)
 	{
-		return $role !== NULL AND isset($this->_roles[$role]);
+    foreach ($roles as $role) {
+      $return = array_key_exists($role, $this->_roles);
+      if ($return)
+        return TRUE;
+    }
+    return FALSE;
 	}
 	
 	// add resource
@@ -198,6 +203,9 @@ class Acl {
 		
 		//echo $role,'-',$resource,'-',$privilege,'<br>';
 		
+		// make role array
+		$role = is_array($role) ? $role : array($role);
+		
 		// role unknown
 		if($role !== NULL AND !$this->has_role($role))
 			return FALSE;
@@ -205,9 +213,6 @@ class Acl {
 		// resource unknown
 		if($resource !== NULL AND !$this->has_resource($resource))
 			return FALSE;
-
-		// make role array
-		$role = array($role);
 		
 		do
 		{
