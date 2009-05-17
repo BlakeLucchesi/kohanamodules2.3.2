@@ -245,16 +245,18 @@ class Acl {
 			// find match for this role		
 			if( ($rule = $this->_find_match($this->_rules,$resource,$role,$privilege) ) )
 			{
-				return $rule;
+				$return[] = $rule;
 			}
 			
 			// try parents of role (starting at last added parent role)
 			if($role !== NULL AND !empty($this->_roles[$role]['parents']))
 			{
-				return $this->_find_match_role($resource,array_reverse($this->_roles[$role]['parents']),$privilege);
+				$return[] = $this->_find_match_role($resource,array_reverse($this->_roles[$role]['parents']),$privilege);
 			}
+			
 		}
-		return FALSE;
+		$return = array_filter($return);
+		return empty($return) ? FALSE : array_pop($return);
 	}
 	
 	/*
